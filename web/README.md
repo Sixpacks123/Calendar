@@ -1,71 +1,75 @@
-## WEB
+# Nuxt 3 Minimal Starter
 
-This directory houses your Nuxt application.
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Installation
+## Setup
 
-To install the fresh Nuxt application, run the installation script from your terminal and follow the on-screen instructions:
-
-```bash
-./install.sh
-```
-
-Once the installation is complete, you can view your Nuxt application in your browser at [http://localhost:3000](http://localhost:3000).
-
-## Environments
-
-There are own docker compose file for each environment. For local development it could be useful to rename a `compose.local.yaml` file to `compose.yaml`. This allows to run docker compose command  without having to specify the specific compose file.
-
-## Usage
-
-### Building images
-
-For example, to build images for local environment, use the following command:
+Make sure to install the dependencies:
 
 ```bash
-docker compose -f compose.local.yaml build
+# npm
+npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
 ```
 
-### Start containers
+## Development Server
 
-To start the Docker containers, use the following command:
+Start the development server on `http://localhost:3000`:
 
 ```bash
-docker compose -f docker-compose.local.yaml up
+# npm
+npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
 ```
 
-Now, you can access your application at [http://localhost:3000](http://localhost:3000) in your browser.
+## Production
 
-### Stop containers
-
-To stop the Docker containers, run the following command:
+Build the application for production:
 
 ```bash
-docker compose -f docker-compose.local.yaml down
+# npm
+npm run build
+
+# pnpm
+pnpm run build
+
+# yarn
+yarn build
+
+# bun
+bun run build
 ```
 
-### Fetching data
+Locally preview production build:
 
-When fetching data from the Laravel API, use different endpoints for browser requests and server-side rendering (SSR) processes. Here's an example on how to do that:
+```bash
+# npm
+npm run preview
 
-```vue
-<script setup>
-const baseUrl = process.server
-    ? 'http://api:8000'
-    : 'http://localhost:8000'
+# pnpm
+pnpm run preview
 
-const { data: posts } = await useFetch(`${baseUrl}/posts`)
-</script>
+# yarn
+yarn preview
 
-<template>
-	<h1>Posts</h1>
-
-	<div>
-		<div v-for="post in posts" :key="post.id">
-			<h2>{{ post.title }}</h2>
-		</div>
-	</div>
-</template>
+# bun
+bun run preview
 ```
 
-Happy coding ☕
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

@@ -1,127 +1,66 @@
-# API
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-This directory houses your Laravel application.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## Stack
+## About Laravel
 
-* Laravel + Octane
-* PostgreSQL
-* Redis
-* Mailpit (SMTP server)
-* Minio (S3 compatible server)
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-## Installation
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-The installation process involves creating a shared network, building images, and initializing a new Laravel application. Execute the following script in your terminal to automate the entire process:
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-```bash
-./install.sh
-```
+## Learning Laravel
 
-This script installs a Laravel app along with [Octane](https://laravel.com/docs/octane) and [S3](https://laravel.com/docs/10.x/filesystem#s3-driver-configuration) packages.
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-Now you should be able to see it running in your browser at [http://localhost:8000](http://localhost:8000).
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-## Environments
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-There are own docker compose file for each environment: production, local, and testing. For local development it could be useful to rename a `compose.local.yaml` file to `compose.yaml`. This allows to run docker compose command  without having to specify the specific compose file.
+## Laravel Sponsors
 
-### Building images
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-For example, to build images for local environment, use the following command:
+### Premium Partners
 
-```bash
-docker compose -f compose.local.yaml build
-```
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[WebReinvent](https://webreinvent.com/)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Jump24](https://jump24.co.uk)**
+- **[Redberry](https://redberry.international/laravel/)**
+- **[Active Logic](https://activelogic.com)**
+- **[byte5](https://byte5.de)**
+- **[OP.GG](https://op.gg)**
 
-### Start containers
+## Contributing
 
-```bash
-docker compose -f compose.local.yaml up
-```
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-Now you can open [http://localhost:8000](http://localhost:8000) URL in your browser.
+## Code of Conduct
 
-### Stop containers
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-```bash
-docker compose -f compose.local.yaml down
-```
+## Security Vulnerabilities
 
-### Artisan commands
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-For artisan commands, specify the current user to ensure correct file permissions. For example, to generate a `Product` model:
+## License
 
-```bash
-docker compose -f compose.local.yaml exec --user $(id -u):$(id -g) app php artisan make:model Product
-```
-
-### Mails
-
-The [Mailpit](https://github.com/axllent/mailpit) service intercepts all sent emails by your application in the local environment.
-
-If you want to check how sent mails look, just go to [http://localhost:8025](http://localhost:8025) in your browser.
-
-### Testing
-
-Use `compose.testing.yaml` for testing. This environment is simpler than the local setup as it doesn't require a separate web server, queue worker, allowing us to use drivers like "sync" for the queue and "array" for the cache.
-
-It features a separate database with an in-memory volume for improved performance during database-dependent tests.
-
-Start the testing environment with:
-
-```bash
-docker compose -f compose.testing.yaml up -d
-```
-
-Then we can execute tests really quick like this:
-
-```bash
-docker compose -f compose.testing.yaml exec app vendor/bin/phpunit
-```
-
-For convenience create a useful bash alias like this:
-
-```bash
-alias t="docker compose -f compose.testing.yaml exec app vendor/bin/phpunit"
-```
-
-Then you can run tests by simply using these commands:
-
-```bash
-# Run all tests
-t
-
-# Run tests with filter by "ProductTest"
-t --filter ProductTest
-
-# Run tests from Unit suite
-t --testsuite Unit
-```
-
-### Logs
-
-All laravel logs are forwarded to the docker log collector via the `stderr` channel.
-
-See the latest logs running the command:
-
-```bash
-docker compose -f compose.local.yaml logs
-```
-
-## Alternatives
-
-### Laravel Sail
-
-The best alternative to this is the official [Laravel Sail](https://laravel.com/docs/sail) tool which is intended for development environment only.
-
-Sail is automatically installed with all new Laravel applications.
-
-### Laradock
-
-Also, there is an excellent project called [Laradock](https://laradock.io/) that contains a full bunch of services.
-
-## To Do List
-
-- [ ] use php.ini-development & php.ini-production from base php image
-- [ ] replace octane watcher with `docker compose watch` for app, queue, schedule services
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
