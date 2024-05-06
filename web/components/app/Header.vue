@@ -73,7 +73,6 @@ defineShortcuts({
   >
     <UContainer class="flex items-center justify-between gap-3 h-16 py-2">
       <AppLogo class="lg:flex-1" />
-
       <nav class="hidden lg:flex">
         <ul class="flex flex-col items-end lg:flex-row lg:items-center lg:gap-x-8">
           <li v-for="item in navItems" class="relative">
