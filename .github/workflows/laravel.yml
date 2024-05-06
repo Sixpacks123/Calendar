@@ -16,6 +16,8 @@ jobs:
       with:
         php-version: '8.3'
     - uses: actions/checkout@v4
+    - name: List files in api directory
+      run: ls -l api
     - name: Copy .env
       run: php -r "file_exists('api/.env.local');"
     - name: Install Dependencies
