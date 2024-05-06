@@ -15,9 +15,12 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: app_test
-          POSTGRES_USER: app_test
-          POSTGRES_PASSWORD: app_test
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: app
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
@@ -34,16 +37,20 @@ jobs:
       working-directory: api
     - name: Directory Permissions
       run: chmod -R 777 api/storage api/bootstrap/cache
-    - name: Execute migrations
-      run: php artisan migrate --env=testing --no-interaction
-      working-directory: api
+    - name: Create Database
+      run: |
+        php -r "file_exists('api/.env') || copy('api/.env.example', 'api/.env');"
+        php artisan migrate --force
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       env:
+        APP_ENV: ${{ secrets.APP_ENV }}
+        APP_DEBUG: ${{ secrets.APP_DEBUG }}
+        APP_URL: ${{ secrets.APP_URL }}
         DB_CONNECTION: pgsql
-        DB_DATABASE: app_test
-        DB_HOST: postgres
+        DB_HOST: localhost
         DB_PORT: 5432
-        DB_USERNAME: app_test
-        DB_PASSWORD: app_test
+        DB_DATABASE: app
+        DB_USERNAME: app
+        DB_PASSWORD: app
       run: php artisan test
       working-directory: api
