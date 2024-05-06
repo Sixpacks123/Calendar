@@ -82,22 +82,6 @@ onBeforeUnmount(() => window.removeEventListener("message", handleMessage));
 
 <template>
   <div class="space-y-4">
-    <div class="flex gap-4">
-      <UButton
-        v-for="(provider, key) in providers"
-        :key="key"
-        :loading="provider.loading"
-        :icon="provider.icon"
-        :color="provider.color"
-        :label="provider.name"
-        size="lg"
-        class="w-full flex items-center justify-center"
-        @click="loginVia(key as string)"
-      />
-    </div>
-
-    <UDivider label="OR" />
-
     <UForm ref="form" :state="state" @submit="onSubmit" class="space-y-4">
       <UFormGroup label="Email" name="email" required>
         <UInput
