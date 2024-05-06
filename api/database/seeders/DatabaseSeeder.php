@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
         $user->save(['timestamps' => false]);
 
         $user->assignRole($role1);
+
     }
 }
