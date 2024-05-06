@@ -18,6 +18,9 @@ class SchoolControllerTest extends TestCase
        
         $this->withoutMiddleware();
 
+        // Créer 2 écoles avec des données aléatoires
+        School::factory()->count(2)->create();
+        
         // Appeler l'API pour obtenir la liste des écoles
         $response = $this->get('/api/v1/schools');
 

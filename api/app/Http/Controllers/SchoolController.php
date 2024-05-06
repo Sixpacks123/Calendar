@@ -101,9 +101,10 @@ class SchoolController extends Controller
         if (!$school) {
             return response()->json(['error' => 'School not found'], 404);
         }
-
+    
         $school->delete();
-
-        return response()->json(['message' => 'School deleted successfully'], 200);
+    
+        return response()->json(null, 204);  // Returning HTTP 204 with no content
     }
+    
 }
