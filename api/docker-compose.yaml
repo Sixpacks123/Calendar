@@ -113,7 +113,17 @@ services:
             - "9001:9001"
         networks:
             - api
-
+    phppgadmin:
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+            PGADMIN_DEFAULT_PASSWORD: "admin"
+        ports:
+            - "8085:80"
+        depends_on:
+            - pgsql
+        networks:
+            - api
 volumes:
     pgsql:
         driver: local
