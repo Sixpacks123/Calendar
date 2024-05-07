@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserProvider extends Model
+class PersonalAccessToken extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'provider_id',
+        'tokenable_id',
+        'tokenable_type',
         'name',
-        'user_id',
+        'token',
+        'abilities',
+        'last_used_at',
+        'expires_at'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

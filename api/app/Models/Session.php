@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserProvider extends Model
+class Session extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     protected $fillable = [
-        'provider_id',
-        'name',
+        'id',
         'user_id',
+        'ip_address',
+        'user_agent',
+        'payload',
+        'last_activity'
     ];
 
     public function user()
