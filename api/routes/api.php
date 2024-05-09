@@ -25,7 +25,10 @@ Route::prefix('api/v1')->group(function () {
         Route::get('devices', [AuthController::class, 'devices'])->name('devices');
         Route::get('user', [AuthController::class, 'user'])->name('user');
         Route::resource('schools', 'App\Http\Controllers\SchoolController');
-        
+        Route::apiResource('meetings', 'App\Http\Controllers\MeetingController');
+        Route::put('meetings/{meeting}/assign-admin', 'App\Http\Controllers\MeetingController@assignAdmin');
+        Route::put('meetings/{meeting}/assign-trainer', 'App\Http\Controllers\MeetingController@assignTrainer');
+
         Route::post('account/update', [AccountController::class, 'update'])->name('account.update');
         Route::post('account/password', [AccountController::class, 'password'])->name('account.password');
 
