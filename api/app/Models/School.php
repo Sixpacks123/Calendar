@@ -34,4 +34,8 @@ class School extends Model
     protected $casts = [];
 
     // Vous pouvez ajouter d'autres méthodes et relations ici
+    public function meeting()
+    {
+        return $this->hasMany(Meeting::class);
+    }
 }
