@@ -25,7 +25,8 @@ class MeetingController extends Controller
             'location' => 'required|string',
             'school_id' => 'required|exists:schools,id',
             'admin_id' => 'required|exists:users,id',
-            'trainer_id' => 'required|exists:users,id'
+            'trainer_id' => 'required|exists:users,id',
+            'module_id' => 'nullable|exists:modules,id'
         ]);
 
         if ($validator->fails()) {
@@ -61,7 +62,8 @@ class MeetingController extends Controller
             'location' => 'string',
             'school_id' => 'exists:schools,id',
             'admin_id' => 'exists:users,id',
-            'trainer_id' => 'exists:users,id'
+            'trainer_id' => 'exists:users,id',
+            'module_id' => 'nullable|exists:modules,id'
         ]);
 
         if ($validator->fails()) {

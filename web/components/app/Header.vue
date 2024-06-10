@@ -33,22 +33,19 @@ const userItems = [
 
 const navItems = [
   {
-    label: "Nuxt.js Docs",
-    to: "https://nuxt.com/docs/getting-started/introduction",
-    target: "_blank",
-    icon: "i-heroicons-link-20-solid",
+    label: "Sessions",
+    to: "/sessions",
+    icon: "i-heroicons-list-bullet",
   },
   {
-    label: "Nuxt UI",
-    to: "https://ui.nuxt.com/getting-started",
-    target: "_blank",
-    icon: "i-heroicons-link-20-solid",
+    label: "Modules",
+    to: "#",
+    icon: "i-heroicons-book-open",
   },
   {
-    label: "Laravel 11.x",
-    to: "https://laravel.com/docs/11.x",
-    target: "_blank",
-    icon: "i-heroicons-link-20-solid",
+    label: "Planning",
+    to: "#",
+    icon: "i-heroicons-calendar-days",
   },
 ];
 
@@ -80,7 +77,7 @@ defineShortcuts({
               class="text-sm/6 font-semibold flex items-center gap-1 hover:text-primary"
               :to="item.to"
               :target="item.target"
-              >{{ item.label }}</NuxtLink
+              > <UIcon :name="item.icon" /> {{ item.label }}  </NuxtLink
             >
           </li>
         </ul>

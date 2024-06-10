@@ -9,7 +9,7 @@ class Meeting extends Model
     use HasFactory;
 
     protected $fillable = [
-        'start_hour', 'end_hour', 'break_time', 'location', 'school_id', 'admin_id', 'trainer_id',
+        'start_hour', 'end_hour', 'break_time', 'location', 'school_id', 'admin_id', 'trainer_id','module_id'
     ];
 
     // Relation avec School
@@ -28,5 +28,9 @@ class Meeting extends Model
     public function trainer()
     {
         return $this->belongsTo(User::class, 'trainer_id');
+    }
+    public function module()
+    {
+        return $this->belongsTo(Module::class, 'module_id');
     }
 }

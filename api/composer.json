@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "darkaonline/l5-swagger": "^8.6",
+        "dedoc/scramble": "^0.9.0",
         "hisorange/browser-detect": "^5.0",
         "intervention/image": "^3.4",
         "laravel/framework": "^11.0",
@@ -14,6 +15,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.0",
+        "rakutentech/laravel-request-docs": "^2.35",
         "spatie/laravel-permission": "^6.4"
     },
     "require-dev": {

@@ -4,7 +4,8 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\FileController;
 Route::get('/', function () {
     return ['ok' => true, 'message' => 'Welcome to the API'];
 });
@@ -28,7 +29,7 @@ Route::prefix('api/v1')->group(function () {
         Route::apiResource('meetings', 'App\Http\Controllers\MeetingController');
         Route::put('meetings/{meeting}/assign-admin', 'App\Http\Controllers\MeetingController@assignAdmin');
         Route::put('meetings/{meeting}/assign-trainer', 'App\Http\Controllers\MeetingController@assignTrainer');
-
+        Route::resource('modules', 'App\Http\Controllers\ModuleController');
         Route::post('account/update', [AccountController::class, 'update'])->name('account.update');
         Route::post('account/password', [AccountController::class, 'password'])->name('account.password');
 

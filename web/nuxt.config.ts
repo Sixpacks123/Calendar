@@ -45,10 +45,10 @@ export default defineNuxtConfig({
 
   image: {
     domains: [
-      process.env.API_URL || 'http://127.0.0.1:8000'
+      process.env.API_URL || 'http://localhost:8000'
     ],
     alias: {
-      api: process.env.API_URL || 'http://127.0.0.1:8000'
+      api: process.env.API_URL || 'http://localhost:8000'
     }
   },
 
@@ -57,7 +57,7 @@ export default defineNuxtConfig({
       crossOriginEmbedderPolicy: 'unsafe-none',
       crossOriginOpenerPolicy: 'same-origin-allow-popups',
       contentSecurityPolicy: {
-        "img-src": ["'self'", "data:", "https://*", process.env.API_URL || 'http://127.0.0.1:8000'],
+        "img-src": ["'self'", "data:", "https://*", process.env.API_URL || 'http://localhost:8000'],
       },
     },
   },
@@ -68,7 +68,6 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     defaultTimezone: 'America/New_York',
   },
-
   /**
    * @see https://v3.nuxtjs.org/guide/features/runtime-config#exposing-runtime-config
    */

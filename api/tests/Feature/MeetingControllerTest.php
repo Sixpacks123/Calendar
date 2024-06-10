@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Meeting;
 use App\Models\User;
-
+use App\Models\Module;
 use Illuminate\Http\Response;
 
 class MeetingControllerTest extends TestCase
@@ -23,15 +23,21 @@ class MeetingControllerTest extends TestCase
 
     public function test_can_create_meeting()
     {
-    
+        $module = Module::factory()->create();
+
         $meeting = Meeting::factory()->make([
             'start_hour' => now()->format('Y-m-d H:i:s'),
-            'end_hour' => now()->addHour(1)->format('Y-m-d H:i:s')
+            'end_hour' => now()->addHour(1)->format('Y-m-d H:i:s'),
+            'module_id' => $module->id
         ]); // Assurez-vous que end_hour est après start_hour
-    
+        
+
         $response = $this->post('/api/v1/meetings', $meeting->toArray());
         $response->assertStatus(201);
         $response->assertJson($meeting->toArray());
+        $this->assertDatabaseHas('meetings', [
+            'module_id' => $meeting->module_id
+        ]);
     }
     
     public function test_can_retrieve_meetings()
@@ -96,7 +102,6 @@ class MeetingControllerTest extends TestCase
         $response = $this->put("/api/v1/meetings/{$meeting->id}/assign-trainer", [
             'trainer_id' => $trainer->id
         ]);
-        $response->dump();
 
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJson(['message' => 'Trainer assigned successfully']);

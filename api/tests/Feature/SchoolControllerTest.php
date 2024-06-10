@@ -13,6 +13,18 @@ class SchoolControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function createSchool($attributes = [])
+    {
+        return School::factory()->create($attributes);
+    }
+
+    private function assertJsonStructureSchool($response)
+    {
+        $response->assertJsonStructure([
+            'school' => ['id', 'name', 'address', 'created_at', 'updated_at']
+        ]);
+    }
+
     public function test_can_get_all_schools()
     {
        
@@ -40,7 +52,7 @@ class SchoolControllerTest extends TestCase
         $this->withoutMiddleware();
 
         // Créer une école
-        $school = School::factory()->make();
+        $school = $this->createSchool();
 
         // Appeler l'API pour créer une école
         $response = $this->post('/api/v1/schools', $school->toArray());
@@ -49,17 +61,18 @@ class SchoolControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
 
         // Vérifier la structure de la réponse JSON
-        $response->assertJsonStructure(['school' => ['id', 'name', 'address', 'created_at', 'updated_at']]);
+        $this->assertJsonStructureSchool($response);
     }
+
     public function test_can_update_school()
     {
         $this->withoutMiddleware();
 
         // Créer une école
-        $school = School::factory()->create();
+        $school = $this->createSchool();
 
         // Modifier l'école
-        $updatedSchool = School::factory()->make();
+        $updatedSchool = $this->createSchool();
 
         // Appeler l'API pour mettre à jour l'école
         $response = $this->put("/api/v1/schools/$school->id", $updatedSchool->toArray());
@@ -68,7 +81,7 @@ class SchoolControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
 
         // Vérifier la structure de la réponse JSON
-        $response->assertJsonStructure(['school' => ['id', 'name', 'address', 'created_at', 'updated_at']]);
+        $this->assertJsonStructureSchool($response);
     }
 
     public function test_can_get_one_school()
@@ -76,7 +89,7 @@ class SchoolControllerTest extends TestCase
         $this->withoutMiddleware();
 
         // Créer une école
-        $school = School::factory()->create();
+        $school = $this->createSchool();
 
         // Appeler l'API pour obtenir une école
         $response = $this->get("/api/v1/schools/$school->id");
@@ -85,7 +98,7 @@ class SchoolControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
 
         // Vérifier la structure de la réponse JSON
-        $response->assertJsonStructure(['school' => ['id', 'name', 'address', 'created_at', 'updated_at']]);
+        $this->assertJsonStructureSchool($response);
     }
 
     public function test_can_delete_school()
@@ -93,7 +106,7 @@ class SchoolControllerTest extends TestCase
         $this->withoutMiddleware();
 
         // Créer une école
-        $school = School::factory()->create();
+        $school = $this->createSchool();
 
         // Appeler l'API pour supprimer une école
         $response = $this->delete("/api/v1/schools/$school->id");
