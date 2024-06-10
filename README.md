@@ -1,6 +1,3 @@
-Voici un exemple de fichier README pour votre projet :
-
-```markdown
 # Projet Laravel + Nuxt avec Docker
 
 Ce projet combine un backend Laravel et un frontend Nuxt, le tout orchestré avec Docker pour simplifier la gestion et le déploiement. Voici les étapes pour lancer le projet.
