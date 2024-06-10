@@ -38,6 +38,16 @@ const navItems = [
     icon: "i-heroicons-list-bullet",
   },
   {
+    label: "Schools",
+    to: "/schools",
+    icon: "i-heroicons-library",
+  },
+  {
+    label: "Meetings",
+    to: "/meetings",
+    icon: "i-heroicons-calendar",
+  },
+  {
     label: "Modules",
     to: "#",
     icon: "i-heroicons-book-open",
