@@ -5,7 +5,6 @@ definePageMeta({
 const modal = useModal();
 const router = useRouter();
 const auth = useAuthStore();
-const {data:schools} = await useFetch("/schools")
 
 </script>
 
@@ -20,7 +19,6 @@ const {data:schools} = await useFetch("/schools")
         </div>
       </UCard>
     </div>
-    {{schools}}
     <div class="col-span-9">
       <UCard>
         <div class="font-bold text-lg leading-tight tracking-tighter mb-4">

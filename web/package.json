@@ -7,9 +7,11 @@
     "dev": "nuxt dev --port=3001",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest"
   },
   "dependencies": {
+    "@pinia/testing": "^0.1.3",
     "nuxt": "^3.11.2",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
@@ -19,14 +21,19 @@
     "@iconify/vue": "^4.1.1",
     "@nuxt/devtools": "^1.0.8",
     "@nuxt/image": "^1.4.0",
+    "@nuxt/test-utils": "^3.13.1",
     "@nuxt/ui": "^2.14.2",
     "@pinia/nuxt": "^0.5.1",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "@vitest/ui": "^1.6.0",
+    "@vue/test-utils": "^2.4.6",
     "chokidar": "^3.6.0",
     "cross-env": "^7.0.3",
     "dayjs-nuxt": "^2.1.9",
-    "nuxt": "^3.10.3",
+    "happy-dom": "^14.12.0",
     "nuxt-security": "^1.2.2",
-    "vue": "3.4.21",
+    "playwright-core": "^1.44.1",
+    "vitest": "^1.6.0",
     "vue-router": "^4.3.0"
   }
 }

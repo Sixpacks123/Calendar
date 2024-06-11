@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         // create roles and assign existing permissions
         $role1 = Role::create(['name' => 'admin']);
         $role2 = Role::create(['name' => 'user']);
+        $role3 = Role::create(['name' => 'trainer']);
 
         // create admin user
         $user = \App\Models\User::factory()->create([
