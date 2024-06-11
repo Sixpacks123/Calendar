@@ -49,12 +49,12 @@ const navItems = [
   },
   {
     label: "Modules",
-    to: "#",
+    to: "/modules",
     icon: "i-heroicons-book-open",
   },
   {
     label: "Planning",
-    to: "#",
+    to: "/plannings",
     icon: "i-heroicons-calendar-days",
   },
 ];
