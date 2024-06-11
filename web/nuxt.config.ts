@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   $development: {
     ssr: true,
     devtools: {
-      enabled: false,
+      enabled: true,
     },
   },
 
@@ -27,7 +27,6 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/main.css',
   ],
-
   /**
    * @see https://v3.nuxtjs.org/api/configuration/nuxt.config#modules
    */
@@ -37,6 +36,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'dayjs-nuxt',
     'nuxt-security',
+
   ],
 
   ui: {
