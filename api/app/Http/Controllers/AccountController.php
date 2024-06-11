@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Storage;
 use Str;
+use App\Models\User;
 
 class AccountController extends Controller
 {
@@ -81,4 +82,39 @@ class AccountController extends Controller
             'ok' => true,
         ]);
     }
+
+    /**
+     * Assign the teacher role to the user.
+     */
+    public function assignTeacherRole(Request $request): JsonResponse
+    {
+        $request->validate([
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        $user = User::find($request->user_id);
+        $user->assignRole('teacher');
+
+        return response()->json([
+            'ok' => true,
+        ]);
+    }
+
+    /**
+     * Assign the admin role to a user.
+     */
+    public function assignAdminRole(Request $request): JsonResponse
+    {
+        $request->validate([
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        $user = User::find($request->user_id);
+        $user->assignRole('admin');
+
+        return response()->json([
+            'ok' => true,
+        ]);
+    }
 }
+

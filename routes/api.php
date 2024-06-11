@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\AccountController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -13,3 +14,7 @@ Route::post('/players', [PlayerController::class, 'store']);
 Route::get('/players/{player}', [PlayerController::class, 'show']);
 Route::put('/players/{player}', [PlayerController::class, 'update']);
 Route::delete('/players/{player}', [PlayerController::class, 'destroy']);
+
+
+Route::post('/account/assign-teacher-role', [AccountController::class, 'assignTeacherRole'])->middleware('auth');
+Route::post('/account/assign-admin-role', [AccountController::class, 'assignAdminRole'])->middleware('auth');
