@@ -2,7 +2,7 @@
 
 set -e
 
-COMPOSE_FILE=compose.local.yaml
+COMPOSE_FILE=docker-compose.yaml
 APP_SERVICE=app
 REVERSE_PROXY_NETWORK=reverse-proxy
 TEMP_DIR=tmp

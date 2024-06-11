@@ -15,6 +15,7 @@ RUN apt-get update \
     libpq-dev \
 # Install Process monitoring package
     procps \
+    libbrotli-dev \
 # Remove APT lists
     && rm -rf /var/lib/apt/lists/*
 
