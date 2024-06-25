@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {useTrainerStore} from "~/stores/trainer";
-import Wizzard from "~/components/wizzard.vue";
 
 definePageMeta({
   middleware: ['auth'],
@@ -10,31 +9,17 @@ const router = useRouter();
 const auth = useAuthStore();
 const trainer =  useTrainerStore();
 const school = useSchoolStore()
+const modules = useModuleStore()
+const role = auth.user.roles.includes('admin') ? 'admin' : 'trainer'
 
 school.fetchSchools()
 trainer.fetchTrainers()
+modules.fetchModules()
 trainer.fetchMeetingsByTrainer(auth.user.id)
 </script>
 
 <template>
   <div class="grid grid-cols-12 gap-6">
-    <div class="col-span-3">
-      <UCard>
-        <div class="font-bold text-lg leading-tight tracking-tighter mb-4">Demo</div>
-
-        <div class="flex gap-3">
-          <UButton label="404 page" color="gray" @click="router.push('/404')" />
-        </div>
-      </UCard>
-    </div>
-    <div class="col-span-9">
-      <UCard>
-        <div class="font-bold text-lg leading-tight tracking-tighter mb-4">
-          User Object
-        </div>
-        <pre>{{ auth.user }}</pre>
-      </UCard>
-    </div>
 
     <div class="col-span-12">
       <UCard>
@@ -45,10 +30,42 @@ trainer.fetchMeetingsByTrainer(auth.user.id)
           <span class="text-lg">{{meetings.id}}</span>
           <span class="text-lg">{{meetings.start_hour}}</span>
           <span class="text-lg">{{meetings.end_hour}}</span>
+        </div>
 
+      </UCard>
+    </div>
+    <div class="col-span-4" v-if="role === 'admin'">
+      <UCard>
+        <div class="font-bold text-lg leading-tight tracking-tighter mb-4">
+          Number of schools
+        </div>
+        <div class="flex justify-between items-center">
+          <UIcon name="i-heroicons-academic-cap"  class="w-6 h-6"/>
+          <UBadge :label="school.schools.length" />
         </div>
       </UCard>
- </div>
-
-  {{trainer.meetings}}
+    </div>
+    <div class="col-span-4" v-if="role === 'admin'">
+      <UCard>
+        <div class="font-bold text-lg leading-tight tracking-tighter mb-4">
+          Number of Module
+        </div>
+        <div class="flex justify-between items-center">
+          <UIcon name="i-heroicons-book-open" class="w-6 h-6" />
+          <UBadge :label="modules.modules.length" />
+        </div>
+      </UCard>
+    </div>
+    <div class="col-span-4" v-if="role === 'admin'">
+      <UCard>
+        <div class="font-bold text-lg leading-tight tracking-tighter mb-4">
+          Number of Trainers
+        </div>
+        <div class="flex justify-between items-center">
+          <UIcon name="i-heroicons-user"  class="w-6 h-6"/>
+          <UBadge :label="trainer.trainers.length" />
+        </div>
+      </UCard>
+  </div>
+    </div>
 </template>

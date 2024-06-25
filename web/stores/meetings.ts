@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 
 export type Meeting = {
   id: number;
-  start_hour: string;
-  end_hour: string;
+  start_hour: Date;
+  end_hour: Date;
   break_time: number;
   location: string;
   school_id: number;
@@ -29,13 +29,10 @@ export const useMeetingStore = defineStore('meeting', () => {
       onResponse({ response }) {
         if (response.status === 200) {
           meetings.value = response._data
+          console.log(response._data)
         } else {
           error.value = 'Error fetching meetings'
         }
-        loading.value = false
-      },
-      onError({ error }) {
-        error.value = error.message || 'Error fetching meetings'
         loading.value = false
       }
     })
