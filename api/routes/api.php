@@ -6,6 +6,8 @@ use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\TrainerController;
+
 Route::get('/', function () {
     return ['ok' => true, 'message' => 'Welcome to the API'];
 });
@@ -29,10 +31,11 @@ Route::prefix('api/v1')->group(function () {
         Route::apiResource('meetings', 'App\Http\Controllers\MeetingController');
         Route::put('meetings/{meeting}/assign-admin', 'App\Http\Controllers\MeetingController@assignAdmin');
         Route::put('meetings/{meeting}/assign-trainer', 'App\Http\Controllers\MeetingController@assignTrainer');
+        Route::get('meetings/trainer/{trainerId}', 'App\Http\Controllers\MeetingController@getMeetingsByTrainer');
         Route::resource('modules', 'App\Http\Controllers\ModuleController');
         Route::post('account/update', [AccountController::class, 'update'])->name('account.update');
         Route::post('account/password', [AccountController::class, 'password'])->name('account.password');
-
+        Route::resource('trainers', 'App\Http\Controllers\TrainerController');
         Route::middleware(['throttle:uploads'])->group(function () {
             Route::post('upload', [UploadController::class, 'image'])->name('upload.image');
         });

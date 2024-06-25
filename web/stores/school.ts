@@ -19,7 +19,7 @@ export const useSchoolStore = defineStore('school', () => {
     error.value = null
 
     const { refresh } = useFetch<{ schools: School[] }>('/schools', {
-      immediate: false,
+      immediate: true,
       onResponse({ response }) {
         if (response.status === 200) {
           schools.value = response._data.schools

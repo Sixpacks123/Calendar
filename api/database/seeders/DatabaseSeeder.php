@@ -30,6 +30,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('password'),
         ]);
+        $user2 = \App\Models\User::factory()->create([
+            'name' => 'trainer',
+            'email' => 'test@test.com',
+            'password' => Hash::make('password'),
+        ]);
 
         $user->ulid = Str::ulid()->toBase32();
         $user->email_verified_at = now();
@@ -37,5 +42,9 @@ class DatabaseSeeder extends Seeder
 
         $user->assignRole($role1);
 
+        $user2->ulid = Str::ulid()->toBase32();
+        $user2->email_verified_at = now();
+        $user2->save(['timestamps' => false]);
+        $user2->assignRole($role3);
     }
 }

@@ -1,22 +1,23 @@
 # Base stage
 FROM php:8.3-cli as base
 
-# Retrieve APT lists
-RUN apt-get update \
-# Install APT packages
-    && apt-get install -y  \
-# Install ZIP library
+# Install necessary libraries and tools
+RUN apt-get update && apt-get install -y \
     libzip-dev \
-# Install ZIP binary
     zip \
-# Install Git binary
     git \
-# Install PostgresSQL library
     libpq-dev \
-# Install Process monitoring package
     procps \
-# Remove APT lists
+    libpng-dev \
+    libjpeg-dev \
+    libxpm-dev \
+    libwebp-dev \
+    libbrotli-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# Configure and install GD extension
+RUN docker-php-ext-configure gd --with-jpeg --with-xpm --with-webp \
+    && docker-php-ext-install gd
 
 # Install PHP extensions using PECL
 RUN pecl install \
@@ -41,7 +42,9 @@ RUN pecl install \
 # Enable Redis extension
     redis \
 # Enable Process Control extension
-    pcntl
+    pcntl \
+# Enable GD extension
+    gd
 
 # Install Composer binary
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -81,7 +84,7 @@ COPY --from=node:21-slim /opt /opt
 # Install Chokidar module
 RUN npm install -g chokidar
 
-# Configure node_mobules path
+# Configure node_modules path
 ENV NODE_PATH=/usr/local/lib/node_modules
 
 # Build stage

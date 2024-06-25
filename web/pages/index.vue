@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import {useTrainerStore} from "~/stores/trainer";
+import Wizzard from "~/components/wizard/wizzard.vue";
+
 definePageMeta({
   middleware: ['auth'],
 });
 const modal = useModal();
 const router = useRouter();
 const auth = useAuthStore();
+const trainer =  useTrainerStore();
+const school = useSchoolStore()
 
+school.fetchSchools()
+trainer.fetchTrainers()
+trainer.fetchMeetingsByTrainer(auth.user.id)
 </script>
 
 <template>
@@ -27,5 +35,10 @@ const auth = useAuthStore();
         <pre>{{ auth.user }}</pre>
       </UCard>
     </div>
-  </div>
+
+ </div>
+  <UCard>
+    <Wizzard />
+  </UCard>
+  {{trainer.meetings}}
 </template>

@@ -1,4 +1,14 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const meetingStore = useMeetingStore()
+const moduleStore = useModuleStore()
+const schoolStore = useSchoolStore()
+
+onMounted(async () => {
+  await meetingStore.fetchMeetings()
+  await moduleStore.fetchModules()
+  await schoolStore.fetchSchools()
+})
+</script>
 
 <template>
   <AppHeader />
@@ -22,3 +32,4 @@
     </template>
   </UNotifications>
 </template>
+
