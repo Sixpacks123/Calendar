@@ -33,14 +33,19 @@ const userItems = [
 
 const navItems = [
   {
-    label: "Sessions",
-    to: "/sessions",
-    icon: "i-heroicons-list-bullet",
+    label: "Planning",
+    to: "/plannings",
+    icon: "i-heroicons-calendar-days",
   },
   {
     label: "Schools",
     to: "/schools",
-    icon: "i-heroicons-library",
+    icon: "i-heroicons-home-modern",
+  },
+  {
+    label:"Modules",
+    to:"/modules",
+    icon:"i-heroicons-book-open",
   },
   {
     label: "Meetings",
@@ -48,14 +53,9 @@ const navItems = [
     icon: "i-heroicons-calendar",
   },
   {
-    label: "Modules",
-    to: "#",
-    icon: "i-heroicons-book-open",
-  },
-  {
-    label: "Planning",
-    to: "#",
-    icon: "i-heroicons-calendar-days",
+    label: "Trainer",
+    to: "/trainer",
+    icon: "i-heroicons-users",
   },
 ];
 

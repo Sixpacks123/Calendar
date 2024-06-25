@@ -41,6 +41,7 @@ export const useModuleStore = defineStore('module', () => {
             const { data, error: fetchError } = await useFetch('/modules', {
                 method: 'POST',
                 body: formData,
+
             })
             if (fetchError.value) {
                 throw new Error(fetchError.value.message)

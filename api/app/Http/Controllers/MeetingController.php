@@ -109,4 +109,10 @@ class MeetingController extends Controller
         $meeting->update(['trainer_id' => $request->trainer_id]);
         return response()->json(['message' => 'Trainer assigned successfully']);
     }
+    // Récupérer les meetings pour un formateur spécifique
+    public function getMeetingsByTrainer($trainerId)
+    {
+        $meetings = Meeting::where('trainer_id', $trainerId)->get();
+        return response()->json($meetings);
+    }
 }

@@ -42,7 +42,7 @@ class AuthController extends Controller
         $user->ulid = Str::ulid()->toBase32();
         $user->save();
 
-        $user->assignRole('user');
+        $user->assignRole('trainer');
 
         event(new Registered($user));
 
@@ -186,6 +186,7 @@ class AuthController extends Controller
             'ok' => true,
             'user' => [
                 ...$user->toArray(),
+                'id' => $user->id,
                 'must_verify_email' => $user->mustVerifyEmail(),
                 'roles' => $user->roles()->select('name')->pluck('name'),
                 'providers' => $user->userProviders()->select('name')->pluck('name'),
@@ -352,4 +353,5 @@ class AuthController extends Controller
             'ok' => true,
         ]);
     }
+
 }

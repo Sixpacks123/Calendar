@@ -40,20 +40,20 @@ class ModuleController extends Controller
              'promotion' => 'required|string|min:0|max:100',
              'comment' => 'nullable|string',
          ]);
-     
+
          if ($validator->fails()) {
              return response()->json($validator->errors(), 400);
          }
-     
+
          $moduleData = $request->only(['name', 'hourly_rate', 'promotion', 'comment']);
-     
+
          if ($request->hasFile('syllabus')) {
              $syllabusPath = $request->file('syllabus')->store('syllabus');
              $moduleData['syllabus'] = $syllabusPath;
          }
-     
+
          $module = Module::create($moduleData);
-     
+
          return response()->json(['message' => 'Module created successfully', 'module' => $module], 201);
      }
 
@@ -95,8 +95,8 @@ public function update(Request $request, Module $module)
     return response()->json(['message' => 'Module updated successfully', 'module' => $module]);
 }
 
-    
-    
+
+
     /**
      * Supprimer un module existant.
      *
@@ -112,17 +112,17 @@ public function update(Request $request, Module $module)
                 }
                 $file->delete();
             }
-    
+
             if ($module->syllabus && Storage::disk('public')->exists($module->syllabus)) {
                 Storage::disk('public')->delete($module->syllabus);
             }
-    
+
             $module->delete();
         });
-    
+
         return response()->json([], 204);
     }
-    
-    
-    
+
+
+
 }

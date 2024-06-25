@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 
 export type Meeting = {
   id: number;
@@ -26,7 +25,7 @@ export const useMeetingStore = defineStore('meeting', () => {
     error.value = null
 
     const { refresh } = useFetch<{ meetings: Meeting[] }>('/meetings', {
-      immediate: false,
+      immediate: true,
       onResponse({ response }) {
         if (response.status === 200) {
           meetings.value = response._data
@@ -176,3 +175,4 @@ export const useMeetingStore = defineStore('meeting', () => {
 
   return { meetings, loading, error, fetchMeetings, addMeeting, updateMeeting, deleteMeeting, assignAdmin, assignTrainer }
 })
+

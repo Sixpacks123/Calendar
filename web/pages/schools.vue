@@ -1,7 +1,9 @@
 <template>
   <div>
     <UButton @click="showModal = true">Add School</UButton>
-    <inputSchoolForm :showModal="showModal" />
+    <UModal v-model="showModal" :ui="{width:'w-2/3'}">
+      <InputSchoolForm  />
+    </UModal>
     <div v-if="!loading && !error" class="grid grid-cols-4 gap-4 pt-4">
       <SchoolCard v-for="school in schools" :key="school.id" :school="school" />
     </div>
@@ -14,9 +16,6 @@
 
 const showModal = ref(false)
 const schoolStore = useSchoolStore()
-const { schools, loading, error, fetchSchools } = schoolStore
+const  schools = computed(() => schoolStore.schools)
 
-onMounted(async () => {
-  await fetchSchools
-})
 </script>
