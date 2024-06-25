@@ -7,9 +7,9 @@
         @cell-click="onCellClick"
     />
   </div>
-  <UModal v-model="openModal">
+  <UModal v-model="openModal" :ui="{ width:'w-2/3'}">
     <UCard>
-      <Wizzard />
+      <wizzard />
     </UCard>
   </UModal>
 </template>
@@ -17,7 +17,6 @@
 <script setup>
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
-import Wizzard from "~/components/wizard/wizzard.vue";
 
 
 const toast = useToast()

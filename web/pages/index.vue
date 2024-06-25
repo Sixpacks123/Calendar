@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useTrainerStore} from "~/stores/trainer";
-import Wizzard from "~/components/wizard/wizzard.vue";
+import Wizzard from "~/components/wizzard.vue";
 
 definePageMeta({
   middleware: ['auth'],
@@ -36,9 +36,19 @@ trainer.fetchMeetingsByTrainer(auth.user.id)
       </UCard>
     </div>
 
+    <div class="col-span-12">
+      <UCard>
+        <div class="font-bold text-lg leading-tight tracking-tighter mb-4">
+          Your meetings
+        </div>
+        <div v-if="trainer.meetings" v-for="meetings in trainer.meetings" :key="meetings.id">
+          <span class="text-lg">{{meetings.id}}</span>
+          <span class="text-lg">{{meetings.start_hour}}</span>
+          <span class="text-lg">{{meetings.end_hour}}</span>
+
+        </div>
+      </UCard>
  </div>
-  <UCard>
-    <Wizzard />
-  </UCard>
+
   {{trainer.meetings}}
 </template>

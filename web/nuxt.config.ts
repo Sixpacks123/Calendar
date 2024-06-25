@@ -9,7 +9,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Laravel/Nuxt Boilerplate',
+      title: 'Calendar',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
