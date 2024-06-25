@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h2 class="text-2xl font-bold mb-4">Create and Assign School, Module, and Sessions</h2>
+    <h2 class="text-2xl font-bold mb-4">Create Sessions</h2>
     <UForm>
       <!-- School Section -->
       <div class="mb-4">
         <UFormGroup label="Select or Create School">
-          <USelect v-model="selectedSchoolId" @change="handleSchoolChange" :options="schoolOptions" class="block w-full mt-1" />
+          <USelect v-model="selectedSchoolId" @change="handleSchoolChange" :options="schoolOptions" class="block w-full mt-1" placeholder="Select School.." />
         </UFormGroup>
         <div v-if="selectedSchoolId === 'new'">
           <UFormGroup label="School Name">
@@ -16,11 +16,10 @@
           </UFormGroup>
         </div>
       </div>
-
       <!-- Module Section -->
       <div class="mb-4">
         <UFormGroup label="Select or Create Module">
-          <USelect v-model="selectedModuleId" @change="handleModuleChange" :options="moduleOptions" class="block w-full mt-1" />
+          <USelect v-model="selectedModuleId" @change="handleModuleChange" :options="moduleOptions" placeholder="Select module .." class="block w-full mt-1" />
         </UFormGroup>
         <div v-if="selectedModuleId === 'new'">
           <UFormGroup label="Module Name">
@@ -42,7 +41,10 @@
       <div class="mb-4">
         <h3 class="text-xl font-bold mb-2">Sessions</h3>
         <div v-for="(session, index) in sessions" :key="index" class="mb-4">
-          <h4 class="text-lg font-semibold mb-2">Session {{ index + 1 }}</h4>
+          <div class="flex justify-between">
+            <h4 class="text-lg font-semibold mb-2">Session {{ index + 1 }}</h4>
+            <UButton @click="removeSession(index)" color="red" icon="i-heroicons-trash" />
+          </div>
           <UFormGroup label="Date">
             <UInput v-model="session.date" type="date" required class="block w-full mt-1" />
           </UFormGroup>
@@ -52,31 +54,32 @@
           <UFormGroup label="End Time">
             <UInput v-model="session.endTime" type="time" required class="block w-full mt-1" />
           </UFormGroup>
-          <UFormGroup label="Duration">
-            <UInput v-model="session.duration" type="number" placeholder="Duration" required class="block w-full mt-1" />
+          <UFormGroup label="Select Trainer" v-slot="{ error }" :error="!session.isTrainerAvailable">
+            <USelect v-model="session.trainerId" :options="trainerOptions"   placeholder="Select one trainer" required class="block w-full mt-1" />
           </UFormGroup>
-          <UFormGroup label="Hourly Rate">
-            <UInput v-model="session.hourlyRate" type="number" placeholder="Hourly Rate" required class="block w-full mt-1" />
-          </UFormGroup>
-          <UFormGroup label="Select Trainer">
-            <USelect v-model="selectedTrainerId" :options="trainerOptions" required class="block w-full mt-1" />
-          </UFormGroup>
-          <UFormGroup label="Status">
-            <USelect v-model="session.status" :options="statusOptions" required class="block w-full mt-1" />
-          </UFormGroup>
-          <UFormGroup label="Comment">
-            <textarea v-model="session.comment" placeholder="Comment" class="block w-full mt-1"></textarea>
-          </UFormGroup>
-          <UButton @click="removeSession(index)" label="Remove Session"/>
+          <div v-if="index === 0">
+            <UFormGroup label="Hourly Rate">
+              <UInput v-model="session.hourlyRate" type="number" placeholder="Hourly Rate" required class="block w-full mt-1" />
+            </UFormGroup>
+            <UFormGroup label="Status">
+              <USelect v-model="session.status" :options="statusOptions" required class="block w-full mt-1" />
+            </UFormGroup>
+            <UFormGroup label="Comment">
+              <textarea v-model="session.comment" placeholder="Comment" class="block w-full mt-1"></textarea>
+            </UFormGroup>
+          </div>
         </div>
-        <UButton @click="addSession" label="Add Session"/>
       </div>
-      <UButton label="Submit" @click="submitForm" />
+      <div class="flex justify-between">
+        <UButton @click="addSession" icon="i-heroicons-plus" label="Add Session" />
+        <UButton label="Submit" icon="i-heroicons-paper-airplane" @click="submitForm" />
+      </div>
     </UForm>
   </div>
 </template>
 
 <script setup>
+
 
 const toast = useToast()
 
@@ -102,16 +105,15 @@ const sessions = ref([{
   date: '',
   startTime: '',
   endTime: '',
-  duration: 0,
   hourlyRate: 0,
   trainerId: '',
   status: 'NEEDED',
-  comment: ''
+  comment: '',
+  isTrainerAvailable: true
 }])
 
 const selectedSchoolId = ref(null)
 const selectedModuleId = ref(null)
-const selectedTrainerId = ref(null)
 const schoolOptions = computed(() => {
   return [...schoolStore.schools.map(school => ({ label: school.name, value: school.id })), { label: 'Create New School', value: 'new' }]
 })
@@ -121,7 +123,6 @@ const moduleOptions = computed(() => {
 })
 
 const trainerOptions = computed(() => {
-
   return trainerStore.trainers.map(trainer => ({ label: `${trainer.name}`, value: trainer.id }))
 })
 
@@ -164,17 +165,17 @@ const handleModuleChange = () => {
   }
 }
 
-
 const addSession = () => {
+  const lastSession = sessions.value[sessions.value.length - 1]
   sessions.value.push({
     date: '',
     startTime: '',
     endTime: '',
-    duration: 0,
-    hourlyRate: 0,
+    hourlyRate: lastSession.hourlyRate,
     trainerId: '',
-    status: 'NEEDED',
-    comment: ''
+    status: lastSession.status,
+    comment: lastSession.comment,
+    isTrainerAvailable: true
   })
 }
 
@@ -192,6 +193,42 @@ const removeSession = (index) => {
   }
 }
 
+const checkTrainerAvailability = async (session) => {
+  try {
+    await trainerStore.fetchMeetingsByTrainer(session.trainerId)
+    const meetings = trainerStore.meetings
+
+    const sessionStart = new Date(`${session.date}T${session.startTime}:00`)
+    const sessionEnd = new Date(`${session.date}T${session.endTime}:00`)
+
+    for (const meeting of meetings) {
+      const meetingStart = new Date(meeting.start_hour)
+      const meetingEnd = new Date(meeting.end_hour)
+
+      if ((sessionStart >= meetingStart && sessionStart < meetingEnd) || (sessionEnd > meetingStart && sessionEnd <= meetingEnd)) {
+        session.isTrainerAvailable = false
+        return
+      }
+    }
+
+    session.isTrainerAvailable = true
+  } catch (error) {
+    console.error('Failed to check trainer availability:', error)
+    session.isTrainerAvailable = false
+  }
+}
+
+const checkAllSessionsAvailability = async () => {
+  for (const session of sessions.value) {
+    if (session.trainerId && session.date && session.startTime && session.endTime) {
+      await checkTrainerAvailability(session)
+    }
+  }
+}
+
+watch(() => sessions.value, checkAllSessionsAvailability, { deep: true })
+
+
 onMounted(() => {
   fetchInitialData()
 })
@@ -199,7 +236,6 @@ onMounted(() => {
 const submitForm = async () => {
   let schoolId = selectedSchoolId.value
   let moduleId = selectedModuleId.value
-  let trainerId = selectedTrainerId.value
 
   try {
     if (schoolId === 'new') {
@@ -226,22 +262,26 @@ const submitForm = async () => {
       })
     }
 
-    const preparedSessions = sessions.value.map(session => {
+    const preparedSessions = []
+    for (const session of sessions.value) {
       const date = session.date
       const startTime = session.startTime
       const endTime = session.endTime
 
-      return {
-        start_hour: `${date} ${startTime}:00`,
-        end_hour: `${date} ${endTime}:00`,
-        break_time: session.duration,
+      const startHour = `${date} ${startTime}:00`
+      const endHour = `${date} ${endTime}:00`
+
+      preparedSessions.push({
+        start_hour: startHour,
+        end_hour: endHour,
+        break_time: session.hourlyRate,
         location: 'Default Location', // Add your logic here to handle the location
         school_id: parseInt(schoolId),
         module_id: parseInt(moduleId),
-        trainer_id: parseInt(trainerId),
+        trainer_id: parseInt(session.trainerId),
         admin_id: authStore.user.id
-      }
-    })
+      })
+    }
 
     await Promise.all(preparedSessions.map(session => meetingStore.addMeeting(session)))
     toast.add({
@@ -265,3 +305,9 @@ const submitForm = async () => {
 }
 
 </script>
+
+<style scoped>
+.border-red-500 {
+  border-color: red;
+}
+</style>

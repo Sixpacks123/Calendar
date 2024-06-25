@@ -13,7 +13,9 @@
 </template>
 
 <script setup>
-
+definePageMeta({
+  middleware: ['role-admin'],
+});
 const showModal = ref(false)
 const moduleStore = useModuleStore()
 const { modules, loading, error, fetchModules } = moduleStore

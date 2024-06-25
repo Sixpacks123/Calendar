@@ -8,34 +8,64 @@ use Illuminate\Support\Facades\Validator;
 
 class MeetingController extends Controller
 {
-    // Afficher tous les meetings
+    // Afficher tous les meetings avec les détails associés (admin, trainer, module, school)
     public function index()
     {
-        $meetings = Meeting::all();
+        $meetings = Meeting::with(['admin', 'trainer', 'module', 'school'])->get();
         return response()->json($meetings);
     }
 
     // Créer un nouveau meeting
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'start_hour' => 'required|date_format:Y-m-d H:i:s',
-            'end_hour' => 'required|date_format:Y-m-d H:i:s|after:start_hour',
-            'break_time' => 'required|integer',
-            'location' => 'required|string',
-            'school_id' => 'required|exists:schools,id',
-            'admin_id' => 'required|exists:users,id',
-            'trainer_id' => 'required|exists:users,id',
-            'module_id' => 'nullable|exists:modules,id'
-        ]);
+public function store(Request $request)
+{
+    \Log::info('Request data:', $request->all());
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
+    $validator = Validator::make($request->all(), [
+        'start_hour' => 'required|date_format:Y-m-d H:i:s',
+        'end_hour' => 'required|date_format:Y-m-d H:i:s|after:start_hour',
+        'break_time' => 'required|integer',
+        'location' => 'required|string',
+        'school_id' => 'required|exists:schools,id',
+        'admin_id' => 'required|exists:users,id',
+        'trainer_id' => 'required|exists:users,id',
+        'module_id' => 'nullable|exists:modules,id'
+    ]);
 
-        $meeting = Meeting::create($request->all());
-        return response()->json($meeting, 201);
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
     }
+
+    // Assurez-vous que les dates sont correctement formatées
+    $startHour = $request->input('start_hour');
+    $endHour = $request->input('end_hour');
+
+    \Log::info('Formatted Start Hour:', ['start_hour' => $startHour]);
+    \Log::info('Formatted End Hour:', ['end_hour' => $endHour]);
+
+    // Create the meeting with the formatted date values
+    $meeting = Meeting::create([
+        'start_hour' => $startHour,
+        'end_hour' => $endHour,
+        'break_time' => $request->input('break_time'),
+        'location' => $request->input('location'),
+        'school_id' => $request->input('school_id'),
+        'admin_id' => $request->input('admin_id'),
+        'trainer_id' => $request->input('trainer_id'),
+        'module_id' => $request->input('module_id'),
+    ]);
+
+    // Log the created meeting
+    \Log::info('Created Meeting:', $meeting->toArray());
+
+    // Fetch the meeting again from the database to check stored values
+    $storedMeeting = Meeting::find($meeting->id);
+    \Log::info('Stored Meeting:', $storedMeeting->toArray());
+
+    return response()->json($storedMeeting, 201);
+}
+
+
+
 
     // Afficher un meeting spécifique
     public function show($id)

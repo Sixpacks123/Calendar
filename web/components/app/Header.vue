@@ -53,10 +53,10 @@ const navItems = [
     icon: "i-heroicons-calendar",
   },
   {
-    label: "Trainer",
-    to: "/trainer",
-    icon: "i-heroicons-users",
-  },
+    label: "Users",
+    to: "/users",
+    icon: "i-heroicons-user-group",
+  }
 ];
 
 const isSideOpen = ref(false);

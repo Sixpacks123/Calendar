@@ -10,13 +10,13 @@ class CreateMeetingsTable extends Migration
     {
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
-            $table->time('start_hour');
-            $table->time('end_hour');
+            $table->timestamp('start_hour')->nullable(false);
+            $table->timestamp('end_hour')->nullable(false);
             $table->integer('break_time');
             $table->string('location');
             $table->foreignId('school_id');
-            $table->foreignId('admin_id');       // Clé étrangère pour l'administrateur
-            $table->foreignId('trainer_id');     // Clé étrangère pour le trainer
+            $table->foreignId('admin_id');
+            $table->foreignId('trainer_id');
             $table->timestamps();
 
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
